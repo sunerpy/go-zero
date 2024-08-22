@@ -1,6 +1,6 @@
 # Rpc Generation
 
-Goctl Rpc是`goctl`脚手架下的一个rpc服务代码生成模块，支持proto模板生成和rpc服务代码生成，通过此工具生成代码你只需要关注业务逻辑编写而不用去编写一些重复性的代码。这使得我们把精力重心放在业务上，从而加快了开发效率且降低了代码出错率。
+Goctl Rpc是 `goctl`脚手架下的一个rpc服务代码生成模块，支持proto模板生成和rpc服务代码生成，通过此工具生成代码你只需要关注业务逻辑编写而不用去编写一些重复性的代码。这使得我们把精力重心放在业务上，从而加快了开发效率且降低了代码出错率。
 
 ## 特性
 
@@ -8,7 +8,6 @@ Goctl Rpc是`goctl`脚手架下的一个rpc服务代码生成模块，支持prot
 * 快速提升开发效率
 * 出错率低
 * 贴近 protoc
-
 
 ## 快速开始
 
@@ -18,9 +17,9 @@ Goctl Rpc是`goctl`脚手架下的一个rpc服务代码生成模块，支持prot
 
   如生成greet rpc服务：
 
-  ```Bash
+```Bash
   goctl rpc new greet
-  ```
+```
 
   执行后代码结构如下:
 
@@ -53,7 +52,7 @@ Goctl Rpc是`goctl`脚手架下的一个rpc服务代码生成模块，支持prot
 ```Bash
 $ goctl rpc template -o=user.proto
 ```
-  
+
 ```proto
 syntax = "proto3";
 
@@ -72,14 +71,12 @@ service User {
   rpc Ping(Request) returns(Response);
 }
 ```
-  
 
 * 生成rpc服务代码
 
 ```bash
 $ goctl rpc protoc  user.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 ```
-
 
 ## 用法
 
@@ -97,12 +94,14 @@ goctl rpc protoc xx.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.
 
 Flags:
       --branch string     The branch of the remote repo, it does work with --remote
+  -c, --client            Whether to generate rpc client (default true)
   -h, --help              help for protoc
       --home string       The goctl home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority
   -m, --multiple          Generated in multiple rpc service mode
       --remote string     The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority
                           	The git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure
       --style string      The file naming format, see [https://github.com/zeromicro/go-zero/tree/master/tools/goctl/config/readme.md] (default "gozero")
+  -s, --skip_pb Whether to skip generating pb & grpc file
   -v, --verbose           Enable log output
       --zrpc_out string   The zrpc output directory
 ```
@@ -115,21 +114,26 @@ Flags:
 * --style 指定文件输出格式
 * -v, --verbose 显示日志
 * --zrpc_out 指定zrpc输出目录
+* --skip_pb goctl不生成*.pb.go文件
 
 > ## --multiple
+>
 > 是否开启多个 rpc service 生成，如果开启，则满足一下新特性
-> 1. 支持 1 到多个 rpc service 
+>
+> 1. 支持 1 到多个 rpc service
 > 2. 生成 rpc 服务会按照服务名称分组（尽管只有一个 rpc service）
 > 3. rpc client 的文件目录变更为固定名称 `client`
-> 
+>
 > 如果不开启，则和旧版本 rpc 生成逻辑一样（兼容）
+>
 > 1. 有且只能有一个 rpc service
 
-
 ## rpc 服务生成 example
+
 详情见 [example/rpc](https://github.com/zeromicro/go-zero/tree/master/tools/goctl/example)
 
 ## --multiple 为 true 和 false 的目录区别
+
 源 proto 文件
 
 ```protobuf
@@ -180,6 +184,7 @@ hello
 ```
 
 ### --multiple=false (旧版本目录，向后兼容)
+
 ```text
 hello
 ├── etc
